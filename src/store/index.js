@@ -10,7 +10,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setServerInfo(state, data) {
-      state.serverInfo = data
+      state.serverInfo = {...state.serverInfo, ...data}
     },
     setSocket (state, data) {
       state.socket = data

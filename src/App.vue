@@ -17,6 +17,19 @@
       </b-card>
     </div>
     <status-footer/>
+
+    <b-modal visible title="Benutzername" centered no-close-on-backdrop no-close-on-esc v-model="nameOpen">
+      <template #modal-header>
+        <div>
+          <h4 class="m-0">Benutzername</h4>
+        </div>
+      </template>
+      <label>Bitte gebe einen Benutzernamen ein:</label>
+      <b-input placeholder="Benutzername" v-model="username"></b-input>
+      <template #modal-footer>
+        <b-button class="float-right" @click="setUsername" :disabled="username.length===0" variant="primary">Bestätigen</b-button>
+      </template>
+    </b-modal>
   </div>
 
 </template>
@@ -38,10 +51,17 @@ export default {
   },
   data () {
     return {
-      err: null
+      err: null,
+      nameOpen: true,
+      username: ""
     }
   },
-  methods: {},
+  methods: {
+    setUsername () {
+      this.nameOpen = false;
+      this.socket.emit('username', this.username)
+    }
+  },
   created () {
     this.$store.commit('setSocket', io('http://192.168.178.31:3420'))
     this.socket.on('info', data => {
