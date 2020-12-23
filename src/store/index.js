@@ -5,11 +5,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    serverInfo: null,
+    socket: null
   },
   mutations: {
+    setServerInfo(state, data) {
+      state.serverInfo = data
+    },
+    setSocket (state, data) {
+      state.socket = data
+    }
   },
   actions: {
   },
   modules: {
+  },
+  getters: {
+    serverInfo: state => state.serverInfo,
+    socket: state => state.socket
   }
 })

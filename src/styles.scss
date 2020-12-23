@@ -1,4 +1,12 @@
-$primary: #0003e9;
+.maxAndCenter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+@import "./assets/variables";
+
 
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/bootstrap-vue/src/index.scss';
