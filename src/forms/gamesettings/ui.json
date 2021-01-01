@@ -1,0 +1,19 @@
+{
+  "$schema": "https://educorvi.github.io/vue_json_form/schemas/ui.schema.json",
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/maxSips"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/kategorien",
+      "options": {
+        "stacked": true,
+        "enumTitles": {
+        }
+      }
+    }
+  ]
+}

@@ -35,7 +35,7 @@
 </template>
 <script>
 import io from 'socket.io/client-dist/socket.io'
-import StatusFooter from '@/components/StatusFooter'
+import StatusFooter from './components/StatusFooter'
 import { mapGetters } from 'vuex'
 import semver from 'semver'
 
