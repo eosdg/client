@@ -38,7 +38,6 @@ export default {
   components: { VueJsonForm },
   data () {
     return {
-      link: '',
       amIHost: false,
       gameData: {},
       question: null,
@@ -52,11 +51,14 @@ export default {
     gameID () {
       return this.$route.params.gameID
     },
+    link () {
+      return window.location.href
+    }
   },
   methods: {
     onStart (settings) {
       console.log(settings)
-    }
+    },
   },
   created () {
     this.socket.once('joinGame', res => {
@@ -66,7 +68,6 @@ export default {
       }
     })
     this.socket.emit('joinGame', this.gameID)
-    this.link = window.location.href
     this.socket.once('amIHost', data => this.amIHost = data)
     this.socket.emit('amIHost', this.gameID)
     this.socket.once('getGameData', data => this.gameData = data)

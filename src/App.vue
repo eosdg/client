@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="m-3">
+  <div id="app" class="m-3 mb-5">
     <router-view v-if="serverInfo && !err"/>
     <div v-else-if="!err" class="maxAndCenter">
       <div class="text-center">
@@ -63,6 +63,9 @@ export default {
     }
   },
   created () {
+    var metaThemeColor = document.querySelector("meta[name=theme-color]");
+    metaThemeColor.setAttribute("content", getComputedStyle(document.body).getPropertyValue('--primary'));
+
     this.$store.commit('setSocket', io('http://192.168.178.31:3420'))
     this.socket.on('info', data => {
       this.$store.commit('setServerInfo', data)
