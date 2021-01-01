@@ -59,6 +59,13 @@ export default {
     }
   },
   created () {
+    this.socket.once('joinGame', res => {
+      if (!res.succ) {
+        this.$root.$bvToast.toast(res.message)
+        this.$router.push("/")
+      }
+    })
+    this.socket.emit('joinGame', this.gameID)
     this.link = window.location.href
     this.socket.once('amIHost', data => this.amIHost = data)
     this.socket.emit('amIHost', this.gameID)
@@ -86,6 +93,10 @@ export default {
         }
       }
     }
+  },
+  beforeRouteLeave (to, from, next) {
+    this.socket.emit("leaveGame", this.gameID)
+    next()
   }
 }
 </script>
