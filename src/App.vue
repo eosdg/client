@@ -66,7 +66,9 @@ export default {
     var metaThemeColor = document.querySelector("meta[name=theme-color]");
     metaThemeColor.setAttribute("content", getComputedStyle(document.body).getPropertyValue('--primary'));
 
-    this.$store.commit('setSocket', io('http://192.168.178.31:3420'))
+    const loc = window.location;
+    const connectTo = loc.protocol +"//"+ loc.hostname + ":3420";
+    this.$store.commit('setSocket', io(connectTo));
     this.socket.on('info', data => {
       this.$store.commit('setServerInfo', data)
       if (!semver.satisfies(this.serverInfo.version, REQUIRED_SERVER_VERSION)) this.err = { message: 'Die Serverversion erfüllt nicht die von der Oberfläche gestellten Bedingungen! (' + REQUIRED_SERVER_VERSION + ')' }
