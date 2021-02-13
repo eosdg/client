@@ -23,6 +23,9 @@
           </b-list-group-item>
         </b-list-group>
       </div>
+      <div v-else>
+        <question :question="question" :amIHost="amIHost" :gameID="gameID"/>
+      </div>
     </div>
   </div>
 </template>
@@ -32,15 +35,17 @@ import { mapGetters } from 'vuex'
 import VueJsonForm from '@educorvi/vue-json-form'
 import settingsSchema from '../forms/gamesettings/schema.json'
 import ui from '../forms/gamesettings/ui.json'
+import question from "../components/question"
 
 export default {
   name: 'Game',
-  components: { VueJsonForm },
+  components: { VueJsonForm, question },
   data () {
     return {
       amIHost: false,
       gameData: {},
       question: null,
+      results: null,
       participants: [],
       settingsSchema: settingsSchema,
       uiSchema: ui
@@ -75,7 +80,10 @@ export default {
     this.socket.emit('getGameData', this.gameID)
     this.socket.on('participantsChanged', p => this.participants = p)
     this.socket.emit('enterGame', this.gameID)
-
+    this.socket.on('question', q =>{
+      this.question = q;
+      this.results = null;
+    });
   },
   watch: {
     gameData: {
@@ -91,7 +99,7 @@ export default {
         if (this.gameData) {
           this.settingsSchema.properties.kategorien.enum = Object.keys(this.gameData._questionSets)
           this.settingsSchema.properties.kategorien.default = Object.keys(this.gameData._questionSets)
-          this.uiSchema.elements[1].options.enumTitles = objectMap(this.gameData._questionSets, item => item.title+" ("+item.description+")")
+          if(this.uiSchema.elements[1].options) this.uiSchema.elements[1].options.enumTitles = objectMap(this.gameData._questionSets, item => item.title+" ("+item.description+")")
         }
       }
     }

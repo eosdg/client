@@ -1,35 +1,39 @@
 <template>
   <div id="app" class="m-3 mb-5">
-    <router-view v-if="serverInfo && !err"/>
-    <div v-else-if="!err" class="maxAndCenter">
-      <div class="text-center">
-        <b-spinner variant="primary"/>
-        <p class="text-muted">Verbinden...</p>
-      </div>
-    </div>
-    <div class="maxAndCenter text-center" v-else>
-      <b-card style="width: fit-content" header="Verbindungsfehler">
-        <h1>
-          <b-icon-exclamation-circle variant="danger"></b-icon-exclamation-circle>
-        </h1>
-        <p>Bei der Verbindung zum Server ist ein Fehler aufgetreten:</p>
-        <p><b>{{ err.message }}</b></p>
-      </b-card>
-    </div>
-    <status-footer/>
-
-    <b-modal visible title="Benutzername" centered no-close-on-backdrop no-close-on-esc v-model="nameOpen">
-      <template #modal-header>
-        <div>
-          <h4 class="m-0">Benutzername</h4>
+    <Topbar id="navbar"/>
+    <div id="content">
+      <router-view v-if="serverInfo && !err"/>
+      <div v-else-if="!err" class="maxAndCenter">
+        <div class="text-center">
+          <b-spinner variant="primary"/>
+          <p class="text-muted">Verbinden...</p>
         </div>
-      </template>
-      <label>Bitte gebe einen Benutzernamen ein:</label>
-      <b-input placeholder="Benutzername" v-model="username"></b-input>
-      <template #modal-footer>
-        <b-button class="float-right" @click="setUsername" :disabled="username.length===0" variant="primary">Bestätigen</b-button>
-      </template>
-    </b-modal>
+      </div>
+      <div class="maxAndCenter text-center" v-else>
+        <b-card style="width: fit-content" header="Verbindungsfehler">
+          <h1>
+            <b-icon-exclamation-circle variant="danger"></b-icon-exclamation-circle>
+          </h1>
+          <p>Bei der Verbindung zum Server ist ein Fehler aufgetreten:</p>
+          <p><b>{{ err.message }}</b></p>
+        </b-card>
+      </div>
+      <status-footer/>
+
+      <b-modal visible title="Benutzername" centered no-close-on-backdrop no-close-on-esc v-model="nameOpen">
+        <template #modal-header>
+          <div>
+            <h4 class="m-0">Benutzername</h4>
+          </div>
+        </template>
+        <label>Bitte gebe einen Benutzernamen ein:</label>
+        <b-input placeholder="Benutzername" v-model="username"></b-input>
+        <template #modal-footer>
+          <b-button class="float-right" @click="setUsername" :disabled="username.length===0" variant="primary">Bestätigen</b-button>
+        </template>
+      </b-modal>
+    </div>
+
   </div>
 
 </template>
@@ -38,12 +42,14 @@ import io from 'socket.io/client-dist/socket.io'
 import StatusFooter from './components/StatusFooter'
 import { mapGetters } from 'vuex'
 import semver from 'semver'
+import Topbar from "@/components/Topbar";
 
 const REQUIRED_SERVER_VERSION = '0.1' //z.B. '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
 
 export default {
   name: 'App',
   components: {
+    Topbar,
     StatusFooter
   },
   computed: {
@@ -81,5 +87,14 @@ export default {
 }
 </script>
 <style lang="scss">
+#navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+}
 
+#content {
+  margin-top: 80px;
+}
 </style>
