@@ -14,6 +14,11 @@ const routes = [
     path: '/game/:gameID',
     name: 'Game',
     component: () => import("../views/Game")
+  },
+  {
+    path: '/lost_connection',
+    name: "Lost Connection",
+    component: () => import("../views/LostConnection")
   }
 ]
 

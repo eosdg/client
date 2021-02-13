@@ -39,7 +39,7 @@ import StatusFooter from './components/StatusFooter'
 import { mapGetters } from 'vuex'
 import semver from 'semver'
 
-const REQUIRED_SERVER_VERSION = '0.x' //z.B. '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
+const REQUIRED_SERVER_VERSION = '0.1' //z.B. '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
 
 export default {
   name: 'App',
@@ -73,7 +73,10 @@ export default {
       this.$store.commit('setServerInfo', data)
       if (!semver.satisfies(this.serverInfo.version, REQUIRED_SERVER_VERSION)) this.err = { message: 'Die Serverversion erfüllt nicht die von der Oberfläche gestellten Bedingungen! (' + REQUIRED_SERVER_VERSION + ')' }
     })
-    this.socket.on('err', data => this.err = data)
+    this.socket.on('err', data => this.err = data);
+    this.socket.on('disconnect', () => {
+      this.$router.push("/lost_connection")
+    });
   }
 }
 </script>

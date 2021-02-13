@@ -2,14 +2,14 @@
   <div class="maxAndCenter">
     <div style="display: block; text-align:left; max-width: 900px; width: 100%">
       <div v-if="!question">
-        <div v-if="amIHost">
+        <b-collapse :visible="amIHost">
           <h1>Spieleinstellungen</h1>
           <vue-json-form v-if="settingsSchema.properties.kategorien.enum.length >=1" :json="settingsSchema" :ui="uiSchema" :onSubmit="onStart">
             <b-button variant="primary" class="w-100" type="submit">Starten</b-button>
           </vue-json-form>
           <hr>
-        </div>
-        <div v-else>
+        </b-collapse>
+        <div v-if="!amIHost">
           <h1>Warte, bis der Host das Spiel beginnt</h1>
         </div>
         <b-card>
@@ -88,9 +88,9 @@ export default {
         }
 
         if (this.gameData) {
-          this.settingsSchema.properties.kategorien.enum = Object.keys(this.gameData.questionSets)
-          this.settingsSchema.properties.kategorien.default = this.gameData.selectedSets
-          this.uiSchema.elements[1].options.enumTitles = objectMap(this.gameData.questionSets, item => item.title+" ("+item.description+")")
+          this.settingsSchema.properties.kategorien.enum = Object.keys(this.gameData._questionSets)
+          this.settingsSchema.properties.kategorien.default = Object.keys(this.gameData._questionSets)
+          this.uiSchema.elements[1].options.enumTitles = objectMap(this.gameData._questionSets, item => item.title+" ("+item.description+")")
         }
       }
     }
