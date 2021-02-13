@@ -5,8 +5,8 @@
       <hr>
       <div style="display: flex; justify-content: center">
         <b-button-group class="w-100">
-          <b-button variant="outline-primary">Doch</b-button>
-          <b-button variant="outline-primary">Noch nie</b-button>
+          <b-button variant="outline-primary" :disabled="disabled" @click="answer('Doch')">Doch</b-button>
+          <b-button variant="outline-primary" :disabled="disabled" @click="answer('Noch nie')">Noch nie</b-button>
         </b-button-group>
       </div>
     </b-card>

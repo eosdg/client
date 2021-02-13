@@ -1,7 +1,6 @@
 <template>
   <div>
-    <component :is="comp" :question="question.question" class="mb-3"/>
-    <b-button v-if="amIHost" class="w-100" variant="primary" @click="socket.emit('nextQuestion', gameID)">Weiter</b-button>
+    <component :is="comp" :gameID="gameID" :question="question.question" class="mb-3"/>
   </div>
 </template>
 
@@ -15,10 +14,6 @@ export default {
   props: {
     amIHost: {
       type: Boolean,
-      required: true
-    },
-    gameID: {
-      type: String,
       required: true
     }
   },

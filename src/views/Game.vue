@@ -1,10 +1,11 @@
 <template>
   <div class="maxAndCenter">
     <div style="display: block; text-align:left; max-width: 900px; width: 100%">
-      <div v-if="!question">
+      <div v-if="!question && !results">
         <b-collapse :visible="amIHost">
           <h1>Spieleinstellungen</h1>
-          <vue-json-form v-if="settingsSchema.properties.kategorien.enum.length >=1" :json="settingsSchema" :ui="uiSchema" :onSubmit="onStart">
+          <vue-json-form v-if="settingsSchema.properties.kategorien.enum.length >=1" :json="settingsSchema"
+                         :ui="uiSchema" :onSubmit="onStart">
             <b-button variant="primary" class="w-100" type="submit">Starten</b-button>
           </vue-json-form>
           <hr>
@@ -23,8 +24,15 @@
           </b-list-group-item>
         </b-list-group>
       </div>
-      <div v-else>
+      <div v-else-if="!results">
         <question :question="question" :amIHost="amIHost" :gameID="gameID"/>
+        <b-button v-if="amIHost" class="w-100 mt-3" variant="primary" @click="socket.emit('nextQuestion', gameID)">Überspringen</b-button>
+      </div>
+      <div v-else>
+        <b-card :header="results.question.question">
+          <b-table striped hover :items="resultItems" :fields="fields"></b-table>
+        </b-card>
+        <b-button v-if="amIHost" class="w-100 mt-3" variant="primary" @click="socket.emit('nextQuestion', gameID)">Weiter</b-button>
       </div>
     </div>
   </div>
@@ -48,7 +56,21 @@ export default {
       results: null,
       participants: [],
       settingsSchema: settingsSchema,
-      uiSchema: ui
+      uiSchema: ui,
+      fields: [
+        {
+          key: "spieler",
+          sortable: true
+        },
+        {
+          key: "antwort",
+          sortable: true
+        },
+        {
+          key: "schlucke",
+          sortable: true
+        },
+      ]
     }
   },
   computed: {
@@ -58,6 +80,15 @@ export default {
     },
     link () {
       return window.location.href
+    },
+    resultItems() {
+      return Object.keys(this.results.results).map(username => {
+        return {
+          spieler: username,
+          antwort: this.results.results[username],
+          schlucke: this.results["sips"][username]
+        }
+      });
     }
   },
   methods: {
@@ -84,6 +115,10 @@ export default {
       this.question = q;
       this.results = null;
     });
+    this.socket.on("results", res => {
+      this.question = null;
+      this.results = res;
+    });
   },
   watch: {
     gameData: {
@@ -104,9 +139,28 @@ export default {
       }
     }
   },
+
   beforeRouteLeave (to, from, next) {
     this.socket.emit("leaveGame", this.gameID)
-    next()
+    this.$bvModal.msgBoxConfirm('Willst du das Spiel wirklich verlassen?', {
+      title: 'Verlassen?',
+      size: 'sm',
+      buttonSize: 'sm',
+      okVariant: 'danger',
+      okTitle: 'Verlassen',
+      cancelTitle: 'Bleiben',
+      footerClass: 'p-2',
+      hideHeaderClose: false,
+      centered: true
+    })
+        .then(value => {
+          if (value) {
+            next();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
   }
 }
 </script>
