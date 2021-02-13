@@ -11,8 +11,15 @@
     "kategorien": {
       "type": "array",
       "enum": []
+    },
+    "zeitlimit": {
+      "title": "Zeitlimit pro Frage in Sekunden",
+      "type": "number",
+      "default": 20,
+      "minimum": 5
     }
   },
   "required": [
+    "zeitlimit"
   ]
 }

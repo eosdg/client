@@ -4,6 +4,10 @@
   "elements": [
     {
       "type": "Control",
+      "scope": "#/properties/zeitlimit"
+    },
+    {
+      "type": "Control",
       "scope": "#/properties/maxSips"
     },
     {

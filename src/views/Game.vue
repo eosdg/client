@@ -57,7 +57,8 @@ export default {
   },
   methods: {
     onStart (settings) {
-      console.log(settings)
+      this.socket.emit("startGame", {gameID: this.gameID, settings});
+
     },
   },
   created () {
