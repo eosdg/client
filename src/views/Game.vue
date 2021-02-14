@@ -32,7 +32,7 @@
       </div>
       <div v-else-if="!results">
         <question :question="question" :amIHost="amIHost" :gameID="gameID" :participants="participants"/>
-        <b-button v-if="amIHost" class="w-100 mt-3" variant="primary" @click="socket.emit('nextQuestion', gameID)">Überspringen</b-button>
+        <b-button v-if="node_env==='development'" class="w-100 mt-3" variant="primary" @click="socket.emit('nextQuestion', gameID)">Überspringen</b-button>
       </div>
       <div v-else>
         <b-card :header="results.question.question">
@@ -87,6 +87,9 @@ export default {
     },
     link () {
       return window.location.href
+    },
+    node_env() {
+      return process.env.NODE_ENV
     },
     resultItems() {
       return Object.keys(this.results.results).map(username => {
