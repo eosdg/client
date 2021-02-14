@@ -10,6 +10,7 @@ import unknown from "@/components/questionTypes/unknown";
 import questionMixin from "@/components/questionTypes/questionMixin";
 import multipleChoice from "@/components/questionTypes/multipleChoice";
 import numberQuestion from "@/components/questionTypes/numberQuestion";
+import mehrheitsWahl from "@/components/questionTypes/mehrheitsWahl";
 
 export default {
   name: "question",
@@ -30,6 +31,8 @@ export default {
           return multipleChoice;
         case "number":
           return numberQuestion;
+        case "majority":
+          return mehrheitsWahl;
         default:
           return unknown;
       }

@@ -164,6 +164,8 @@ export default {
         .then(value => {
           if (value) {
             leave.call(this);
+          }else {
+            next(false);
           }
         })
         .catch(err => {

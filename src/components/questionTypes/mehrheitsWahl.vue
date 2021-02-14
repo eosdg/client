@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card header="Multiple Choice">
+    <b-card header="Mehrheitswahl">
       <h2>{{ question.question }}</h2>
       <hr>
       <div style="display: flex; justify-content: center">
@@ -20,7 +20,7 @@
 import questionMixin from "@/components/questionTypes/questionMixin";
 
 export default {
-  name: "multipleChoice",
+  name: "mehrheitswahl",
   mixins: [questionMixin]
 }
 </script>

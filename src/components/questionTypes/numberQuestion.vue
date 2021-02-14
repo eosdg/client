@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card header="Multiple Choice">
+    <b-card header="Schätzfrage">
       <h2>{{ question.question }}</h2>
       <hr>
       <div style="display: flex; justify-content: center">
@@ -18,7 +18,7 @@
 import questionMixin from "@/components/questionTypes/questionMixin";
 
 export default {
-  name: "neverHaveIEver",
+  name: "numberquestion",
   mixins: [questionMixin],
   data() {
     return {
