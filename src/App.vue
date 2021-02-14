@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="m-3 mb-5">
+  <div id="app">
     <Topbar id="navbar"/>
-    <div id="content">
+    <div id="content" class="m-3 mb-5">
       <router-view v-if="serverInfo && !err"/>
       <div v-else-if="!err" class="maxAndCenter">
         <div class="text-center">
@@ -90,10 +90,11 @@ export default {
 </script>
 <style lang="scss">
 #navbar {
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100vw;
+  z-index: 4200;
 }
 
 #content {
