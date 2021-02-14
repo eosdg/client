@@ -86,7 +86,7 @@ export default {
         return {
           spieler: username,
           antwort: this.results.results[username],
-          schlucke: this.results["sips"][username]
+          schlucke: (this.results["sips"][username] || 0)
         }
       });
     }
@@ -141,7 +141,14 @@ export default {
   },
 
   beforeRouteLeave (to, from, next) {
-    this.socket.emit("leaveGame", this.gameID)
+    function leave() {
+      this.socket.emit("leaveGame", this.gameID)
+      next();
+    }
+
+    if (to.path === "/lost_connection") {
+      leave.call(this);
+    }
     this.$bvModal.msgBoxConfirm('Willst du das Spiel wirklich verlassen?', {
       title: 'Verlassen?',
       size: 'sm',
@@ -155,12 +162,12 @@ export default {
     })
         .then(value => {
           if (value) {
-            next();
+            leave.call(this);
           }
         })
         .catch(err => {
           console.log(err);
-        })
+        });
   }
 }
 </script>

@@ -8,6 +8,7 @@
 import neverHaveIEver from "@/components/questionTypes/neverHaveIEver";
 import unknown from "@/components/questionTypes/unknown";
 import questionMixin from "@/components/questionTypes/questionMixin";
+import multipleChoice from "@/components/questionTypes/multipleChoice";
 
 export default {
   name: "question",
@@ -20,10 +21,12 @@ export default {
   mixins: [questionMixin],
   computed: {
     comp() {
+      console.log(this.question.question.type);
       switch (this.question.question.type) {
         case "neverHaveIever":
           return neverHaveIEver;
-
+        case "multipleChoice":
+          return multipleChoice;
         default:
           return unknown;
       }
