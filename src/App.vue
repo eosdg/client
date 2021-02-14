@@ -96,7 +96,7 @@ export default {
   top: 0;
   left: 0;
   width: 100vw;
-  z-index: 4200;
+  z-index: 1000;
 }
 
 #content {

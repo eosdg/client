@@ -24,6 +24,12 @@
           </b-list-group-item>
         </b-list-group>
       </div>
+      <div v-else-if="!question.question">
+        <b-card header="Keine Fragen mehr">
+          <p>Ihr habt alle Fragen durchgespielt</p>
+          <b-button to="/">Verlassen</b-button>
+        </b-card>
+      </div>
       <div v-else-if="!results">
         <question :question="question" :amIHost="amIHost" :gameID="gameID" :participants="participants"/>
         <b-button v-if="amIHost" class="w-100 mt-3" variant="primary" @click="socket.emit('nextQuestion', gameID)">Überspringen</b-button>
@@ -102,7 +108,7 @@ export default {
     this.socket.once('joinGame', res => {
       if (!res.succ) {
         this.$root.$bvToast.toast(res.message)
-        this.$router.push("/")
+        this.$router.push("/?noConfirm=true")
       }
     })
     this.socket.emit('joinGame', this.gameID)
@@ -135,7 +141,7 @@ export default {
         if (this.gameData) {
           this.settingsSchema.properties.kategorien.enum = Object.keys(this.gameData._questionSets)
           this.settingsSchema.properties.kategorien.default = Object.keys(this.gameData._questionSets)
-          if(this.uiSchema.elements[1].options) this.uiSchema.elements[1].options.enumTitles = objectMap(this.gameData._questionSets, item => item.title+" ("+item.description+")")
+          if(this.uiSchema.elements[2].options) this.uiSchema.elements[2].options.enumTitles = objectMap(this.gameData._questionSets, item => item.title+" ("+item.description+")")
         }
       }
     }
@@ -147,7 +153,7 @@ export default {
       next();
     }
 
-    if (to.path === "/lost_connection") {
+    if (to.path === "/lost_connection" || to.query.noConfirm) {
       leave.call(this);
     }
     this.$bvModal.msgBoxConfirm('Willst du das Spiel wirklich verlassen?', {

@@ -22,6 +22,7 @@ export default new Vuex.Store({
   },
   getters: {
     serverInfo: state => state.serverInfo,
-    socket: state => state.socket
+    socket: state => state.socket,
+    version: () => process.env.PACKAGE_VERSION
   }
 })

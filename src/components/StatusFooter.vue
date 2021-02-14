@@ -4,6 +4,7 @@
     <b-skeleton v-else width="200px" class="mt-1"/>
     <p class="m-0" v-if="serverInfo">Nutzer online: <b>{{ serverInfo.usersnumber }}</b></p>
     <b-skeleton v-else width="200px" class="mt-1"/>
+    <p class="m-0">Clientversion: <b>{{ version }}</b></p>
   </div>
 </template>
 
@@ -13,7 +14,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'statusFooter',
   computed: {
-    ...mapGetters(['serverInfo'])
+    ...mapGetters(['serverInfo', "version"])
   },
 }
 </script>
@@ -23,7 +24,9 @@ export default {
   background-color: #5b5b5b;
   color: white;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding-left: 10%;
+  padding-right: 10%;
   position: fixed;
   bottom: 0;
   left: 0;
