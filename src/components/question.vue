@@ -1,6 +1,9 @@
 <template>
   <div>
-    <component :is="comp" :gameID="gameID" :question="question.question" :participants="participants" class="mb-3"/>
+    <b-progress class="mb-2" :value="time" :max="question['timeLimit']" :variant="time/question['timeLimit']>0.2?'warning':'danger'"/>
+    <b-collapse :visible="time>0">
+      <component :is="comp" :gameID="gameID" :question="question.question" :participants="participants" class="mb-3"/>
+    </b-collapse>
   </div>
 </template>
 
@@ -19,6 +22,12 @@ export default {
     amIHost: {
       type: Boolean,
       required: true
+    }
+  },
+  data() {
+    return {
+      time: 0,
+      timer: null
     }
   },
   mixins: [questionMixin],
@@ -41,6 +50,19 @@ export default {
       }
     }
   },
+  created() {
+    this.time = this.question["timeLimit"];
+    this.timer = setInterval(function () {
+      this.time -= 0.1;
+      if (this.time <= 0) {
+        this.answer(null);
+        clearInterval(this.timer);
+      }
+    }.bind(this), 100);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+  }
 }
 </script>
 

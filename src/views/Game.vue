@@ -24,7 +24,7 @@
           </b-list-group-item>
         </b-list-group>
       </div>
-      <div v-else-if="!question.question">
+      <div v-else-if="question && !question.question">
         <b-card header="Keine Fragen mehr">
           <p>Ihr habt alle Fragen durchgespielt</p>
           <b-button to="/">Verlassen</b-button>
