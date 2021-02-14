@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component :is="comp" :gameID="gameID" :question="question.question" class="mb-3"/>
+    <component :is="comp" :gameID="gameID" :question="question.question" :participants="participants" class="mb-3"/>
   </div>
 </template>
 
@@ -11,6 +11,7 @@ import questionMixin from "@/components/questionTypes/questionMixin";
 import multipleChoice from "@/components/questionTypes/multipleChoice";
 import numberQuestion from "@/components/questionTypes/numberQuestion";
 import mehrheitsWahl from "@/components/questionTypes/mehrheitsWahl";
+import personenWahl from "@/components/questionTypes/personenWahl";
 
 export default {
   name: "question",
@@ -33,6 +34,8 @@ export default {
           return numberQuestion;
         case "majority":
           return mehrheitsWahl;
+        case "voting":
+          return personenWahl;
         default:
           return unknown;
       }

@@ -25,12 +25,12 @@
         </b-list-group>
       </div>
       <div v-else-if="!results">
-        <question :question="question" :amIHost="amIHost" :gameID="gameID"/>
+        <question :question="question" :amIHost="amIHost" :gameID="gameID" :participants="participants"/>
         <b-button v-if="amIHost" class="w-100 mt-3" variant="primary" @click="socket.emit('nextQuestion', gameID)">Überspringen</b-button>
       </div>
       <div v-else>
         <b-card :header="results.question.question">
-          <h5 v-if="results['correctSolution']">Antwort: {{results.correctSolution}}</h5>
+          <h4 v-if="results['correctSolution']" class="text-primary">Antwort: {{results.correctSolution}}</h4>
           <b-table striped hover :items="resultItems" :fields="fields"></b-table>
         </b-card>
         <b-button v-if="amIHost" class="w-100 mt-3" variant="primary" @click="socket.emit('nextQuestion', gameID)">Weiter</b-button>

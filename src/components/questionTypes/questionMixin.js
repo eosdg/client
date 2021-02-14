@@ -9,6 +9,9 @@ export default {
         gameID: {
             type: String,
             required: true
+        },
+        participants: {
+            type: Array
         }
     },
     data() {
