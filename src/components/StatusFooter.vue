@@ -1,10 +1,10 @@
 <template>
-  <div id="footer">
-    <p class="m-0" v-if="serverInfo">Serverversion: <b>{{ serverInfo.version }}</b></p>
+  <div id="footer" class="text-center">
+    <p class="m-0" v-if="serverInfo">Server: <b>{{ serverInfo.version }}</b></p>
     <b-skeleton v-else width="200px" class="mt-1"/>
-    <p class="m-0" v-if="serverInfo">Nutzer online: <b>{{ serverInfo.usersnumber }}</b></p>
+    <p class="m-0 mr-1 ml-1" v-if="serverInfo">Nutzer online: <b>{{ serverInfo.usersnumber }}</b></p>
     <b-skeleton v-else width="200px" class="mt-1"/>
-    <p class="m-0">Clientversion: <b>{{ version }}</b></p>
+    <p class="m-0">Client: <b>{{ version }}</b></p>
   </div>
 </template>
 
