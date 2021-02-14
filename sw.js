@@ -10,7 +10,7 @@ if (workbox) {
 
 workbox.core.setCacheNameDetails({ prefix: 'eosdg_cache' })
 //Change this value every time before you build
-const LATEST_VERSION = "v0.1.0";
+const LATEST_VERSION = "v1.0.0";
 self.addEventListener('activate', (event) => {
   console.log(`%c ${LATEST_VERSION} `, 'background: #ddd; color: #0000ff')
   if (caches) {
