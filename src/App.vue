@@ -27,7 +27,7 @@
           </div>
         </template>
         <label>Bitte gebe einen Benutzernamen ein:</label>
-        <b-input placeholder="Benutzername" v-model="username" autocomplete="username"></b-input>
+        <b-input placeholder="Benutzername" v-model="username" autocomplete="given-name"></b-input>
         <template #modal-footer>
           <b-button class="float-right" @click="setUsername" :disabled="username.length===0" variant="primary">Bestätigen</b-button>
         </template>
@@ -59,7 +59,7 @@ export default {
   data () {
     return {
       err: null,
-      nameOpen: false,
+      nameOpen: null,
       username: ""
     }
   },
@@ -79,7 +79,9 @@ export default {
     this.socket.on('info', data => {
       this.$store.commit('setServerInfo', data)
       if (!semver.satisfies(this.serverInfo.version, REQUIRED_SERVER_VERSION)) this.err = { message: 'Die Serverversion erfüllt nicht die von der Oberfläche gestellten Bedingungen! (' + REQUIRED_SERVER_VERSION + ')' }
-      this.nameOpen = true
+      if (this.nameOpen === null) {
+        this.nameOpen = true
+      }
     })
     this.socket.on('err', data => this.err = data);
     this.socket.on('disconnect', () => {

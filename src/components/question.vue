@@ -9,6 +9,7 @@ import neverHaveIEver from "@/components/questionTypes/neverHaveIEver";
 import unknown from "@/components/questionTypes/unknown";
 import questionMixin from "@/components/questionTypes/questionMixin";
 import multipleChoice from "@/components/questionTypes/multipleChoice";
+import numberQuestion from "@/components/questionTypes/numberQuestion";
 
 export default {
   name: "question",
@@ -27,6 +28,8 @@ export default {
           return neverHaveIEver;
         case "multipleChoice":
           return multipleChoice;
+        case "number":
+          return numberQuestion;
         default:
           return unknown;
       }
