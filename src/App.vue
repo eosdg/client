@@ -45,7 +45,7 @@ import semver from 'semver'
 import {websocketURL} from "../config";
 import Topbar from "@/components/Topbar";
 
-const REQUIRED_SERVER_VERSION = '1.0' //z.B. '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
+const REQUIRED_SERVER_VERSION = '1.1' //z.B. '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
 
 export default {
   name: 'App',
