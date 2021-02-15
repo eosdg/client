@@ -129,6 +129,7 @@ export default {
       this.question = null;
       this.results = res;
     });
+    this.socket.on("newHost", () => this.amIHost = true);
   },
   watch: {
     gameData: {
