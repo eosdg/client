@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Topbar id="navbar"/>
+    <Topbar id="navbar" :username="username" @changeName="nameOpen=true"/>
     <div id="content" class="m-3 mb-5">
       <router-view v-if="serverInfo && !err"/>
       <div v-else-if="!err" class="maxAndCenter">
@@ -27,9 +27,9 @@
           </div>
         </template>
         <label>Bitte gebe einen Benutzernamen ein:</label>
-        <b-input placeholder="Benutzername" v-model="username" autocomplete="given-name"></b-input>
+        <b-input placeholder="Benutzername" v-model="username" autocomplete="given-name" @keydown.native="test_keydown_handler"></b-input>
         <template #modal-footer>
-          <b-button class="float-right" @click="setUsername" :disabled="username.length===0" variant="primary">Bestätigen</b-button>
+          <b-button class="float-right" @click="setUsername" :disabled="username?username.length===0:true" variant="primary">Bestätigen</b-button>
         </template>
       </b-modal>
     </div>
@@ -66,10 +66,17 @@ export default {
   methods: {
     setUsername () {
       this.nameOpen = false;
+      this.$ls.set('username', this.username)
       this.socket.emit('username', this.username)
-    }
+    },
+    test_keydown_handler(event) {
+      if (event.keyCode === 13) {
+        this.setUsername();
+      }
+    },
   },
   created () {
+    this.username = this.$ls.get("username");
     const metaThemeColor = document.querySelector("meta[name=theme-color]");
     metaThemeColor.setAttribute("content", getComputedStyle(document.body).getPropertyValue('--primary'));
 
@@ -78,11 +85,15 @@ export default {
     this.$store.commit('setSocket', io(connectTo));
     this.socket.on('info', data => {
       this.$store.commit('setServerInfo', data)
-      if (!semver.satisfies(this.serverInfo.version, REQUIRED_SERVER_VERSION)) this.err = { message: 'Die Serverversion erfüllt nicht die von der Oberfläche gestellten Bedingungen! (' + REQUIRED_SERVER_VERSION + ')' }
-      if (this.nameOpen === null && !this.err) {
+      if (!semver.satisfies(this.serverInfo.version, REQUIRED_SERVER_VERSION)) this.err = {message: 'Die Serverversion erfüllt nicht die von der Oberfläche gestellten Bedingungen! (' + REQUIRED_SERVER_VERSION + ')'}
+    });
+    this.socket.on("sendUsername", () => {
+      if (this.username) {
+        this.socket.emit('username', this.username);
+      } else {
         this.nameOpen = true;
       }
-    })
+    });
     this.socket.on('err', data => this.err = data);
     this.socket.on('disconnect', () => {
       this.$router.push("/lost_connection")
