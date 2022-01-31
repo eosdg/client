@@ -3,6 +3,13 @@ const fs = require('fs');
 const packageJson = fs.readFileSync('./package.json');
 const version = JSON.parse(packageJson).version || 0;
 module.exports = {
+  css: {
+    loaderOptions: {
+      sass: {
+        implementation: require('sass'), // This line must in sass option
+      },
+    },
+  },
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
