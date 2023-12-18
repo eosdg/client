@@ -81,7 +81,8 @@ export default {
     metaThemeColor.setAttribute("content", getComputedStyle(document.body).getPropertyValue('--primary'));
 
     const loc = window.location;
-    const connectTo = (websocketURL || loc.protocol + "//" + loc.hostname + "/ws");
+    const connectTo = (websocketURL || loc.protocol + '//' +loc.host);
+    console.debug('Connecting to ' + connectTo);
     this.$store.commit('setSocket', io(connectTo));
     this.socket.on('info', data => {
       this.$store.commit('setServerInfo', data)
